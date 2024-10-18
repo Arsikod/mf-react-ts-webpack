@@ -1,6 +1,5 @@
 import { Configuration } from "webpack";
 import { Configuration as DevServerConfig } from "webpack-dev-server";
-import HtmlWebpackPlugin from "html-webpack-plugin";
 import commonConfig from "./webpack.common";
 import { merge } from "webpack-merge";
 import packageJson from "../package.json";
@@ -15,19 +14,16 @@ const devServerConfig: DevServerConfig = {
   },
 };
 
-const devConfig = (templatePath: string): Configuration => ({
+const devConfig = (): Configuration => ({
   mode: "development",
   devServer: devServerConfig,
   plugins: [
-    new HtmlWebpackPlugin({
-      template: templatePath,
-    }),
     new ModuleFederationPlugin({
       name: "container",
       remotes: {
         marketing: "marketing@http://localhost:8081/remoteEntry.js",
       },
-      // shared: packageJson.dependencies,
+      shared: packageJson.dependencies,
     }),
   ],
 });
@@ -37,7 +33,4 @@ const paths = {
   entryPath: path.resolve(__dirname, "../src", "index.ts"),
 };
 
-export default merge(
-  commonConfig(paths.entryPath),
-  devConfig(paths.templatePath)
-);
+export default merge(commonConfig(), devConfig());

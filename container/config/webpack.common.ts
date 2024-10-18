@@ -1,8 +1,15 @@
 import { Configuration } from "webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "path";
 
-export default (entryPath: string): Configuration => {
+const paths = {
+  templatePath: path.resolve(__dirname, "../public", "index.html"),
+  entryPath: path.resolve(__dirname, "../src", "index.ts"),
+};
+
+export default (): Configuration => {
   const config: Configuration = {
-    entry: entryPath,
+    entry: paths.entryPath,
     module: {
       rules: [
         {
@@ -12,6 +19,11 @@ export default (entryPath: string): Configuration => {
         },
       ],
     },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: paths.templatePath,
+      }),
+    ],
     resolve: {
       extensions: [".tsx", ".ts", ".js"],
     },
