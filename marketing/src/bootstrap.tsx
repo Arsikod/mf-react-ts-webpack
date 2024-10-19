@@ -1,10 +1,16 @@
+import { Root, createRoot } from "react-dom/client";
+
 import App from "./app";
 import React from "react";
-import { createRoot } from "react-dom/client";
+
+let existingRoot: Root | null = null;
 
 function mount(rootElement: HTMLElement) {
-  const root = createRoot(rootElement);
-  root.render(
+  if (!existingRoot) {
+    existingRoot = createRoot(rootElement);
+  }
+
+  existingRoot.render(
     <React.StrictMode>
       <App />
     </React.StrictMode>

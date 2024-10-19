@@ -1,13 +1,33 @@
-import MarkettingApp from "../components/marketting-app";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 
-export function App() {
+import { Header } from "../components/header";
+import { MarketingApp } from "../components/marketing-app";
+
+function Layout() {
   return (
-    <div>
-      <h1>Container</h1>
+    <main>
+      <Header signedIn={false} onSignOut={() => console.log("Signed out")} />
 
-      <hr />
-
-      <MarkettingApp />
-    </div>
+      <Outlet />
+    </main>
   );
 }
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <MarketingApp />,
+      },
+      {
+        path: "/pricing",
+        element: <MarketingApp />,
+      },
+    ],
+  },
+]);
+
+export default () => <RouterProvider router={router} />;

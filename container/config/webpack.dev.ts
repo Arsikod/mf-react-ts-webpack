@@ -9,9 +9,7 @@ const { ModuleFederationPlugin } = require("webpack").container;
 
 const devServerConfig: DevServerConfig = {
   port: 8080,
-  historyApiFallback: {
-    index: "index.html",
-  },
+  historyApiFallback: true,
 };
 
 const devConfig = (): Configuration => ({
